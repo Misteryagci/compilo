@@ -1,0 +1,221 @@
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper,oneside]{article}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % permet l’encodage en UTF8
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+% liens interne et externe
+%\hypersetup{backref,colorlinks=true,bookmarks=true,pdftoolbar=true}
+
+
+\geometry{hmargin=2cm, vmargin=2cm}
+%% configuration de listings
+\lstset{
+  language=c,
+  basicstyle=\ttfamily\small, %
+  identifierstyle=\color{red}, %
+  keywordstyle=\color{blue}, %
+  stringstyle=\color{black!60}, %
+  commentstyle=\color{black!95!}, %
+  columns=flexible, %
+  tabsize=2, %
+  extendedchars=true, %
+  showspaces=false, %
+  showstringspaces=false, %
+  numbers=left, %
+  numberstyle=\tiny, %
+  breaklines=true, %
+  breakautoindent=true, %
+  captionpos=b
+}
+
+
+\definecolor{Zgris}{rgb}{0.87,0.85,0.85}
+
+\newsavebox{\BBbox}
+\newenvironment{DDbox}[1]{
+  \begin{lrbox}{\BBbox}\begin{minipage}{\linewidth}}
+    {\end{minipage}\end{lrbox}\noindent\colorbox{Zgris}{\usebox{\BBbox}} \\[.5cm]}
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{titlepage}
+
+  \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+   \center % Center everything on the page  
+   \center{\huge \bfseries Compilation}\\[0.4cm] % Title of your document
+  %% %% \begin{center}
+  %% %%   \includegraphics[scale=0.4]{bordeaux.png} \\[1cm]
+  %% %% \end{center}
+%
+ % \HRule \\[0.4cm]
+ % { \huge \bfseries Rapport du projet de compilation}\\[0.4cm] % Title of your document
+ 
+ % \HRule \\[1.5cm]
+  
+% ----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+  \vfill
+  \begin{minipage}{0.4\textwidth}
+    \begin{flushleft} \large
+      \emph{Membres : }\\
+      Raphael \textsc{Jorel} % Your name
+      
+      Antoine \textsc{Laulan} % Your name
+
+      Guillaume \textsc{Béchade} % Your name
+
+      Craig \textsc{Josse} % Your name
+    \end{flushleft}
+  \end{minipage}
+  ~
+  \begin{minipage}{0.4\textwidth}
+    \begin{flushright} \large
+      \emph{17 Décembre 2014} \\
+      \textsc{Compte rendu du projet de compilation} % Nom du groupe
+    \end{flushright}
+  \end{minipage}\\[4cm]
+
+% ----------------------------------------------------------------------------------------
+%	DATE SECTION
+% ----------------------------------------------------------------------------------------
+
+  \textsc{17/12/2014}\\[3cm] % Date, change the \today to a set date if you want
+  % to be precise
+
+%----------------------------------------------------------------------------------------
+  \vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT
+%----------------------------------------------------------------------------------------
+
+
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------------------------
+
+\section*{Introduction}
+Ceci est le rapport du projet de compilation. Ce document est écrit en \LaTeX. \\
+Dans une première partie nous expliquerons les fonctionnalités implémentées, en expliquant ce qui fonctionne et comment cela fonctionne.\newline
+Dans une seconde partie nous relaterons les plus grosses difficultés rencontrées ainsi que ce qui ne fonctionne pas et pourquoi.\newline
+Et enfin dans une troisième et dernière partie, nous détaillerons la participation de chacun des membres de notre groupe. \newline
+
+L'intégralité de notre projet peut être consultée sur notre dépôt svn :
+
+\begin{verbatim}
+svn --username votre_login co
+https://services.emi.u-bordeaux1.fr/projet/svn/rgac-compil
+\end{verbatim}
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+
+\section{Fonctionnalités implémentées}
+L'intégralité de nos fonctionnalités est testée par notre fichier ``data/input.comp'' . Le résultat est écrit dans le fichier ``data/output.txt''.
+
+\subsection{Lexer}
+
+Notre Lexer, JFlex, contient la majeure partie des Tokens demandés dans le sujet. Nous avons fait le choix de remplir le lexer en premier pour après, ne plus avoir à le toucher. Cependant certains de ces Tokens ne sont pas utilisés dans le CUP.
+Les Tokens rajoutés sont situés après la balise ADD. 
+
+\subsection{Tables des symboles}
+Notre table des symboles associe un identifiant à un type. Il peut s'agir d'une fonction comme d'une variable. La pile de tables des symboles permet de les lier entre elles. On parle aussi d'environnement pour les tables de symboles. 
+
+\subsection{Parser}
+Notre Parser, CUP, a été amélioré afin de pouvoir parser les éléments suivants : \\
+\begin{itemize}
+\item l'instruction IF,
+\item l'instruction IF THEN ELSE,
+\item l'instruction WHILE,
+\item la déclaration de variables,
+\item l'affectation de variables,
+\item la définition fonctions,
+\item les blocs avec environnement,
+\item les expressions,
+\item la gestion des erreurs de parsage.
+\end{itemize}
+  \paragraph {Affectation de variables}
+  Pour pouvoir affecter une variable il faut que celle-ci existe au préalable. Chaque nouvelle variable est stockée dans une table de symboles, qui est consultée afin de définir si l'affectation est licite ou non.
+
+  \paragraph {Définition de fonctions}
+  Nos fonctions peuvent prendre une liste de paramètres qui peut être vide.
+
+  \paragraph{Les blocs}
+  Il existe deux blocs différents : les blocs ``normaux'' et les blocs ``fonctions''. Chacun des blocs empile un nouvel environnement sur la pile.
+
+  
+\subsection{Arbre de syntaxe abstraite}
+L'arbre de syntaxe abstraite(ASA) est construit dans notre CUP, au fur et à mesure du parsage de fichier en input. On associe chaque construction reconnue à un noeud de l'arbre. Il existe autant de noeuds différents qu'il existe de constructions possibles. On a pris le parti de faire une classe par noeud et donc d'utiliser l'héritage que nous permet JAVA, plutôt que de ne faire qu'une seule et même classe pour l'ensemble des noeuds.
+
+\subsection{Code intermédiaire}
+Le code intermédiaire est généré à l'aide de l'arbre de syntaxe abstraite. Cela se fait récursivement sur l'arbre. Chaque classe implémente la même méthode qui associe un noeud de l'ASA vers l'arbre de code intermédiaire (ACI). Les classes qui représentent les noeuds de l'ACI implémentent la méthode ``toDot()'' permettant un rendu visuel de l'arbre.
+
+\subsection{Code à trois adresses}
+Chaque noeud de l'ACI est traduit en code à trois adresses de façon plus ou moins logique en fonction des cas. Le nombre de variables temporaires utilisées a tenté d'être réduit par la personne en charge.
+
+ %% \begin{DDbox}{\linewidth}
+ %%        \begin{lstlisting}
+ %%          Code a ecrire ici si on a du code a ecrire!!
+ %%      \end{lstlisting}
+ %%    \end{DDbox}    
+    
+
+\newpage
+  
+%----------------------------------------------------------------------------------------     
+    
+  \section{Aspects non implémentés}
+  Voici la liste des aspects que nous aurions aimés implémenter et qui étaient à notre portée:\\
+  \begin{itemize}
+  \item les tableaux,
+  \item les pointeurs,
+  \item les structures,
+  \item la récupération du retour d'une fonction dans une variable,
+  \item le passage des paramètres à une fonction dans le code à trois adresses,
+  \item le typage et la coercition des expressions.
+  \end{itemize}
+  
+  \section{Participation}
+
+  \paragraph{Antoine Laulan}  
+  Antoine a participé au développement du JFlex et du CUP.
+  
+  \paragraph{Raphael Jorel}
+  Raphael a construit l'arbre de code intermédiaire ainsi que la traduction en code à trois adresses, ainsi qu'une partie du CUP et de la gestion des environnements.
+  
+  \paragraph{Guillaume Béchade}
+  Guillaume a participé à l'élaboration du CUP, la construction de l'arbre de syntaxe abstraite, et la gestion des environnements.
+  
+
+  \paragraph{Craig Josse}
+  Craig a fait le dépôt, ainsi qu'une partie du JFlex et du CUP.
+  
+
+\end{document}          
+

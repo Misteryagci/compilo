@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!-- ================================= 
+       Comp
+       13 Octobre 2014
+       Lionel Clément pour Compilation M1 MathInfo
+       ================================= -->
+<project name="projet" default="run">
+  <property name="JFlexLib" location="lib" />
+  <property name="CUPLib" location="lib" />
+  <property name="parser.dir" location="parser" />
+  <property name="lexer.dir" location="lexer" />
+  <property name="bin.dir" location="bin" />
+  <property name="lib.dir" location="lib" />
+  <property name="src.dir" location="src" />
+  <property name="doc.dir" location="doc" />
+  <property name="data.dir" location="data" />
+  
+  <description>
+    compilation du projet comp
+  </description>
+  
+  <!-- ================================= 
+       target: clean
+       ================================= -->
+  <target name="clean" 
+	  description="Efface toutes les cibles">
+    <delete dir="${bin.dir}"/>
+    <delete dir="${err.dir}"/>
+    <delete>
+      <fileset dir="doc">
+        <include name="*.aux"/>
+        <include name="*.log"/>
+        <include name="*.pdf"/>
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="src/lexer">
+        <include name="*"/>
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="src/parser">
+        <include name="*"/>
+      </fileset>
+    </delete>
+    <delete>
+      <fileset dir="data">
+        <include name="output.*"/>
+      </fileset>
+    </delete>
+    
+  </target>
+  
+  <!-- ================================= 
+       target: doc              
+       ================================= -->
+  <target name="doc" depends="">
+    
+    <exec 
+	executable="pdflatex"
+	dir="${doc.dir}">
+      <arg line="spec"/> 
+    </exec>
+    
+  </target>
+  
+  <!-- ================================= 
+       target: run the compiler on intput              
+       ================================= -->
+  <target name="run" depends="comp" description="exécution du compilateur sur un source">
+    
+    <java 
+	classname="Main"
+	classpath=".:${bin.dir}:${lib.dir}/java-cup-11a-runtime.jar"
+        output="data/output.txt"
+    	error="data/output.err">
+      <arg value="data/input.txt"/>
+      <arg value="data/output.txt"/>
+    </java>
+    
+  </target>
+  
+  <!-- ================================= 
+       target: calc, the main programm              
+       ================================= -->
+  <target name="comp" depends="parser,lexer" description="Compilation du projet">
+    <mkdir dir="${bin.dir}" />
+    <javac srcdir="${src.dir}" 
+	   destdir="${bin.dir}" 
+	   classpath="${lib.dir}/java-cup-11a-runtime.jar" 
+	   debug="on"
+	   includeantruntime="off"
+	   />
+    
+  </target>
+  
+  <!-- =================================
+       target: lexer
+       ================================= -->
+  <target name="lexer" description="Compilation du lexer">
+    
+    <taskdef name="jflex" classname="JFlex.anttask.JFlexTask">
+      <classpath location="${JFlexLib}/JFlex.jar" />
+    </taskdef>
+    
+    <mkdir dir="src/lexer" />
+    <jflex 
+	file="lexer/comp.jflex" 
+	destdir="src/lexer"/>
+  </target>
+  
+  <!-- ================================= 
+       target: parser              
+       ================================= -->
+  <target name="parser" description="Compilation du parseur">
+    
+    <taskdef name="cup" classname="java_cup.anttask.CUPTask">
+      <classpath location="${CUPLib}/java-cup-11a.jar" />
+    </taskdef>
+    
+    <mkdir dir="src/parser" />
+    <cup 
+	srcfile="${parser.dir}/comp.cup"
+	destdir="src/parser"
+	parser="CompParser"
+	symbols="CompSymbol"
+	debug="debug"
+	expect="0"
+	dump_grammar="true"
+	dump_tables="false"
+	dump_states="false"
+	/>
+  </target>
+  
+</project>
+

@@ -1,0 +1,23 @@
+# Initializing parser
+# Current Symbol is #64
+# Shift under term #64 to state #12
+# Current token is #64
+syntax error in 1(4)
+# Attempting error recovery
+# Finding recovery state on stack
+# Pop stack by one, state was # 12
+# Recover state found (#0)
+# Shifting on error to state #10
+# Trying to parse ahead
+# Consuming Symbol #64
+# Trying to parse ahead
+# Consuming Symbol #6
+# Trying to parse ahead
+# Consuming Symbol #7
+# Trying to parse ahead
+# Consuming Symbol #61
+# Trying to parse ahead
+# Consuming Symbol #62
+# Trying to parse ahead
+# Error recovery fails at EOF
+error in line -1: Couldn't repair and continue parse

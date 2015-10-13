@@ -1,0 +1,94 @@
+function blabla(x : integer) : integer {
+return x;
+}
+
+procedure youwantme(var : string){
+	      var = "allo";
+	      	      stop;
+			    }
+
+function tuveuxquoi(x : integer) : integer{
+floater : float;
+floater = 2.12;
+return floater;
+}
+
+procedure jepensequecamarche(r : integer, p : list of float) {
+	      allo : integer;
+	      r=p;
+		bool1 : boolean;
+	 bool2 : boolean;
+          bool1 = true;
+	bool2 = bool1;
+      while (bool1)
+									  allo++;
+										   while (bool2)
+
+										        stop;
+}
+
+function whaaat(test1 : character) : string {
+	   a : string;
+	       a = "testing";
+
+	         foreach i in [0,1,2] {
+		 	      a = "test";
+			      	  }
+
+				    if (true)
+				            return "yup";
+
+					      return "ceci est un yup ! ";
+					      }
+
+function numberOne (pa1 : int, pa2 : float) : float {
+ap : float;
+or : float;
+gr : float;
+ap = 3.456;
+gr = pa1;
+pe = pa2;
+or = 1.11111;
+
+return or;
+}
+
+procedure main (arg1 : integer, arg2 : list of string){
+
+// Declarations
+abc : integer;
+str : string;
+test : boolean;
+random : float;
+a :character;
+quoi : `test; // quoi prend un type boolean maintenant
+var1: float;
+var2:float;
+
+
+test = true;
+quoi--;
+random = 5.4321;
+a ='a';
+
+// procedure (bolobolo)
+proc1(var, 'c', "hello");
+random = numberOne(var1, var2);
+proc2();
+
+if (test)
+   quoi++;
+
+if (test)
+   quoi++;
+   else
+      quoi--;
+
+foreach i in [1,2,3,4,5] {
+	quoi++;
+	}
+
+stop;
+}
+
+

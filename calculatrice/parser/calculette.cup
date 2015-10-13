@@ -1,0 +1,252 @@
+import java_cup.runtime.*;
+import java.util.Vector;
+import java.io.*;
+
+
+parser code {: 
+    
+    public void report_error(String message, Object info) {
+        StringBuffer msg = new StringBuffer("error");
+        if (info instanceof Symbol) {
+            Symbol s = (Symbol) info;
+            msg.append(" in line ");
+            msg.append(s.left);
+        }
+        msg.append(": ");
+        msg.append(message);
+        System.err.println(msg);
+    }
+
+    public void report_error(String message) {
+        StringBuffer msg = new StringBuffer("error");
+        System.err.println(msg);
+    }
+
+    public void report_error(String message, int line) {
+        StringBuffer msg = new StringBuffer("error in line ");
+        msg.append(line);
+        msg.append(": ");
+        msg.append(message);
+        System.err.println(msg);
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+	throw new RuntimeException("Fatal Syntax Error");
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        StringBuffer msg = new StringBuffer("syntax error in ");
+        msg.append((Integer.valueOf(cur_token.left + 1))+"("+cur_token.right+")");
+        System.err.println(msg);
+    }
+
+    public void syntax_error(int line, int column) {
+        StringBuffer msg = new StringBuffer("syntax error in ");
+        msg.append((Integer.valueOf(line+1))+"("+column+")");
+        System.err.println(msg);
+    }
+
+    :}
+
+init with {:
+    :}
+
+
+terminal THEN, LIST, PROCEDURE, LIST_OF_TYPE, FUNCTION, BREAK,AND, TYPE, EQ, STRUCT, IF,EQEQ, STOP, LBRACE, RBRACE, LBRACKET, RBRACKET, CHARAA,NULL,TRUE,FALSE,INT, CHAR, FLOAT, BOOL, STRINGSS, LPAR, RPAR, POINTVIRG, PLUS, MINUS, MULT, DIV, MOD, COMA,RIGHT_DECAL,LEFT_DECAL, COLONS,LET, NO_LOGIC, TILD, INCREM, DECREM, LT, GT,LE,PIPE, GE,ENTREPARENT,AND_COM, OR,DIFF,CHAP, ELSE, IN, WHILE, REPEAT, FOR_EACH, MAIN, STATIC, RETURN, CLASS, POINT, ARROW, VAR_TYPE,MOT,NBR, ID, STRING;
+
+
+non terminal  axiom, begin,regle1, typess, symbol_mathematiques, sign_of, pp_mm,typess_list, dec_var, assignment,  variabless_t, operator_declaration, else_instruction, block_instruction, etcomou,list_argument_definition, create_class,  shift_reduce,block,return_block, stop_block, statementss, appelle_de_fonction, list_or_set,main_definition,dec_executable, imp_class,imp_executable, create_procedure, create_function, imp_procedure, imp_function, class, class_content, instrs, instruction, type_declaration, structs, structure;
+
+
+
+precedence nonassoc LBRACKET;
+precedence nonassoc ELSE;
+precedence left AND;
+precedence left OR;
+precedence left LT, GT, LE, GE, EQEQ, DIFF, ENTREPARENT;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV, MOD;
+precedence left INCREM, DECREM, AND_COM, OR;
+precedence left POINT, ARROW;
+precedence right MULT;
+precedence right ID;
+
+
+/* The grammar */
+
+start with axiom;
+
+axiom ::= begin
+    ;
+
+begin ::= regle1 main_definition regle1;
+
+
+regle1 ::=
+                    | regle1 dec_executable
+                    | regle1 imp_executable POINTVIRG ;
+
+
+dec_executable ::=   create_procedure {: System.out.println("Reduction dec_executable == creat_procedure"); :}
+                        | create_function {: System.out.println("Reduction dec_executable == create_function"); :}
+                        | create_class  {: System.out.println("Reduction dec_executable== create_class"); :};
+
+imp_executable ::=  imp_procedure {: System.out.println("Reduction imp_executable== imp_procedure"); :}
+                        | imp_function {: System.out.println("Reduction imp_executable== imp_function"); :}
+                        | imp_class {: System.out.println("Reduction imp_executable== imp_class"); :};
+
+main_definition ::= PROCEDURE MAIN LPAR ID COLONS INT COMA ID COLONS LIST_OF_TYPE STRING RPAR block {: System.out.println("main_definition"); :};
+
+
+
+imp_function ::=  FUNCTION ID LPAR RPAR COLONS variabless_t {: System.out.println("Reduction imp_function "); :}
+		| FUNCTION ID LPAR list_argument_definition RPAR COLONS variabless_t {: System.out.println("Reduction imp_function "); :};
+
+create_class ::= imp_class LBRACE class RBRACE {: System.out.println("Reduction create_class "); :} ;
+
+list_argument_definition ::=  dec_var {: System.out.println("Reduction list_argument_definition "); :}
+			    | list_argument_definition COMA dec_var  {: System.out.println("Reduction list_argument_definition "); :}
+
+                            ;
+create_procedure ::= imp_procedure block {: System.out.println("Reduction create_procedure== imp_procedure"); :};
+
+imp_class ::= CLASS ID {: System.out.println("Reduction imp_class "); :} ;
+
+
+statementss ::=        FOR_EACH  ID IN list_or_set instruction {: System.out.println("Reduction statementss "); :}
+                     | WHILE LPAR typess RPAR instruction {: System.out.println("Reduction statementss "); :}
+                     | REPEAT instruction WHILE LPAR typess RPAR {: System.out.println("Reduction statementss "); :}
+                     | IF LPAR typess RPAR instruction ELSE instruction {: System.out.println("Reduction statementss "); :}
+		     | IF LPAR typess RPAR instruction {: System.out.println("Reduction statementss "); :};
+class ::=
+                    | class class_content {: System.out.println("Reduction class == class_content "); :}
+                    | class STATIC class_content {: System.out.println("Reduction class STATIC "); :};
+
+create_function  ::= imp_function block {: System.out.println("Reduction create_function== imp_function"); :};
+
+class_content ::= dec_var POINTVIRG {: System.out.println("Reduction class_content == dec_var "); :}
+                | ID LPAR list_argument_definition RPAR block {: System.out.println("Reduction class_content == constructeur"); :} 
+		| create_function {: System.out.println("Reduction class_content == create_function "); :}
+                | ID LPAR RPAR block {: System.out.println("Reduction class_content "); :} 
+                | create_procedure {: System.out.println("Reduction class_content == create_procedure "); :}
+                | TILD ID LPAR list_argument_definition RPAR block {: System.out.println("Reduction class_content"); :}
+                | TILD ID LPAR RPAR block {: System.out.println("Reduction class_content"); :}
+                ;
+
+imp_procedure ::= PROCEDURE ID LPAR list_argument_definition RPAR {: System.out.println("Reduction imp_procedure"); :}
+                         |PROCEDURE ID LPAR  RPAR {: System.out.println("Reduction imp_procedure "); :};
+
+instrs ::=
+                   |instrs instruction {: System.out.println("Reduction instrs "); :} ;
+
+
+
+instruction ::=   STOP POINTVIRG {: System.out.println("Reduction instruction "); :}
+                | RETURN typess POINTVIRG {: System.out.println("Reduction instruction "); :}
+                | type_declaration POINTVIRG {: System.out.println("Reduction instruction "); :}
+		| dec_var POINTVIRG {: System.out.println("Reduction instruction "); :}
+                | assignment POINTVIRG {: System.out.println("Reduction instruction "); :} 
+                | typess POINTVIRG {: System.out.println("Reduction instruction "); :}
+                | BREAK POINTVIRG {: System.out.println("Reduction instruction "); :}
+                | statementss {: System.out.println("Reduction instruction "); :}
+                | block {: System.out.println("Reduction instruction "); :};
+
+type_declaration ::= TYPE ID EQ STRUCT LBRACE structs RBRACE {: System.out.println("Reduction type_declaration "); :};
+
+structs ::=  structs POINTVIRG structure {: System.out.println("Reduction structs "); :} 
+	   | structure;
+
+
+structure ::= dec_var POINTVIRG {: System.out.println("Reduction structure== dec_var "); :};
+
+typess ::=   
+               | NO_LOGIC typess {: System.out.println("Reduction typess -> NO_LOGIC typess "); :}
+               | typess operator_declaration typess {: System.out.println("Reduction typess "); :}
+	       | FLOAT {: System.out.println("Reduction typess -> FLOAT "); :}
+               | NBR  {: System.out.println("Reduction typess -> NBR "); :}  
+               | shift_reduce {: System.out.println("Reduction typess -> shift_reduce "); :}
+               | shift_reduce pp_mm {: System.out.println("Reduction typess -> pp_mm "); :}
+               | TRUE {: System.out.println("Reduction typess -> TRUE "); :}
+               | FALSE {: System.out.println("Reduction typess -> FALSE "); :}
+               | NULL {: System.out.println("Reduction typess -> NULL "); :}
+               | CHARAA {: System.out.println("Reduction typess ->  "); :}
+               | STRINGSS {: System.out.println("Reduction typess ->  "); :}
+               | LPAR typess RPAR {: System.out.println("Reduction typess typess "); :}
+               | error:e POINTVIRG 
+               ;
+
+
+operator_declaration ::= symbol_mathematiques {: System.out.println("Reduction operator_eclaration -> symbol_mathematiques"); :}
+             | sign_of {: System.out.println("Reduction operator_declaration -> sign_of"); :}
+             | etcomou {: System.out.println("Reduction operator_declaration -> etcomou"); :};
+
+
+sign_of ::= 	 ENTREPARENT {: System.out.println("Reduction sign_of -> ENTREPARENT"); :}	
+			| LT {: System.out.println("Reduction sign_of -> LT"); :}
+                        | GT {: System.out.println("Reduction sign_of -> GT"); :}
+                        | GE {: System.out.println("Reduction sign_of -> GE"); :}
+                        | LE {: System.out.println("Reduction sign_of -> LE"); :}
+                        | DIFF {: System.out.println("Reduction sign_of -> DIFF"); :};
+
+variabless_t ::= BOOL 
+	| ID 
+	| INT
+        | STRING
+        | LIST_OF_TYPE variabless_t
+        | VAR_TYPE variabless_t
+        | CHAR
+        | FLOAT
+        | TYPE variabless_t
+        | error:e  POINTVIRG
+        ;
+
+
+block ::= LBRACE instrs RBRACE {: System.out.println("Reduction block == instrs "); :};
+
+
+appelle_de_fonction ::= ID LPAR RPAR 		{: System.out.println("Reduction function"); :}
+                       |ID LPAR typess_list RPAR  {: System.out.println("Reduction function "); :};
+
+
+shift_reduce ::=  AND shift_reduce {: System.out.println("Reduction typess_list"); :} 
+     	         | MULT shift_reduce{: System.out.println("Reduction typess_list"); :}
+		 | ID {: System.out.println("Reduction typess_list"); :}
+                 | shift_reduce LBRACKET typess RBRACKET {: System.out.println("Reduction typess_list"); :}
+                 | shift_reduce POINT shift_reduce  {: System.out.println("Reduction typess_list"); :}	
+                 | appelle_de_fonction {: System.out.println("Reduction typess_list"); :} 
+                 | shift_reduce ARROW shift_reduce {: System.out.println("Reduction typess_list"); :};
+
+typess_list ::=      typess
+                   | typess_list COMA typess {: System.out.println("Reduction typess_list"); :}
+                   |error RPAR
+                   ;
+
+dec_var ::= ID COLONS variabless_t {: System.out.println("Reduction dec_var"); :};
+
+assignment ::= ID EQ list_or_set {: System.out.println("Reduction assignment"); :}
+              | ID EQ typess {: System.out.println("Reduction assignment"); :};
+
+list_or_set ::= LBRACKET typess_list RBRACKET {: System.out.println("Reduction list_or_set"); :}
+              | error RBRACKET
+              ;
+
+
+symbol_mathematiques ::=  MINUS {: System.out.println("Reduction symbol_mathematiques -> MINUS"); :}
+                        | DIV {: System.out.println("Reduction symbol_mathematiques -> DIV"); :} 
+			| PLUS {: System.out.println("Reduction symbol_mathematiques -> PLUS"); :}
+                        | MULT {: System.out.println("Reduction symbol_mathematiques -> MULT"); :}
+                        | MOD {: System.out.println("Reduction symbol_mathematiques -> MOD"); :};
+
+
+
+
+etcomou ::=  AND_COM {: System.out.println("Reduction typess_list"); :}
+                  | OR {: System.out.println("Reduction typess_list"); :};
+
+
+
+pp_mm ::= INCREM {: System.out.println("Reduction pp_mm -> ++"); :}
+         |DECREM{: System.out.println("Reduction pp_mm -> --"); :};
+
+

@@ -1,0 +1,275 @@
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_function 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_function== imp_function
+Reduction dec_executable == create_function
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_procedure
+Reduction typess ->  
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_procedure== imp_procedure
+Reduction dec_executable == creat_procedure
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_function 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> FLOAT 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_function== imp_function
+Reduction dec_executable == create_function
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_procedure
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> TRUE 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess_list
+Reduction pp_mm -> ++
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_procedure== imp_procedure
+Reduction dec_executable == creat_procedure
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_function 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess ->  
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> NBR 
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction list_or_set
+Reduction typess ->  
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> TRUE 
+Reduction typess ->  
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction typess ->  
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_function== imp_function
+Reduction dec_executable == create_function
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction dec_var
+Reduction list_argument_definition 
+Reduction imp_function 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> FLOAT 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> FLOAT 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction create_function== imp_function
+Reduction dec_executable == create_function
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction dec_var
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> TRUE 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction pp_mm -> --
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> FLOAT 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess ->  
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess ->  
+Reduction typess_list
+Reduction typess ->  
+Reduction typess_list
+Reduction function 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess_list
+Reduction function 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction assignment
+Reduction instruction 
+Reduction instrs 
+Reduction function
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess_list
+Reduction pp_mm -> ++
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction typess_list
+Reduction typess -> shift_reduce 
+Reduction typess_list
+Reduction pp_mm -> ++
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction typess_list
+Reduction pp_mm -> --
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction typess -> NBR 
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction typess -> NBR 
+Reduction typess_list
+Reduction list_or_set
+Reduction typess_list
+Reduction pp_mm -> ++
+Reduction typess -> pp_mm 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+Reduction instruction 
+Reduction statementss 
+Reduction instruction 
+Reduction instrs 
+Reduction instruction 
+Reduction instrs 
+Reduction block == instrs 
+main_definition
